@@ -11,8 +11,10 @@ public enum Messages {
     UPDATED("Actualizacion exitosa", 200),
     DELETED("Eliminacion exitosa", 200),
     BADREQUEST("Error en su peticion", 400),
-    NOT_FOUND("Recurso no encontrado", 404),
+
     INTERNAL_ERROR("Error en el servicio", 500),
+    USER_NOT_FOUND("Usuario no encontrado", 500),
+    EMAIL_EXISTS("Correo ya ingresado", 500),
     CONFLICT("Conflicto en su peticion", 409);
 
 

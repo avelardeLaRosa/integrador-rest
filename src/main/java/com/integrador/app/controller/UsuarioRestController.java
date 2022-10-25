@@ -1,10 +1,12 @@
 package com.integrador.app.controller;
 
 import com.integrador.app.dto.UsuarioDTO;
-import com.integrador.app.entities.UsuarioEntity;
-import com.integrador.app.entities.response.OutPutEntity;
+import com.integrador.app.entities.response.ApiReponse;
+import com.integrador.app.entities.response.Paginacion;
 import com.integrador.app.excepciones.Messages;
 import com.integrador.app.service.IUsuarioService;
+import com.integrador.app.util.ConstantesServicio;
+import lombok.Getter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,22 +24,68 @@ public class UsuarioRestController {
     }
 
 
+    @GetMapping
+    public ResponseEntity<ApiReponse<Paginacion>> listarUsuarios(
+            @RequestParam(value = "pageNum", defaultValue = ConstantesServicio.PAGE_NUMBER,required = false) int pageNum,
+            @RequestParam(value = "pageSize", defaultValue = ConstantesServicio.PAGE_SIZE,required = false) int pageSize,
+            @RequestParam(value = "sortBy",defaultValue = ConstantesServicio.DEFAULT_ORDER_BY, required = false) String orderBy,
+            @RequestParam(value = "sortDir",defaultValue = ConstantesServicio.DEFAULT_SORT_BY ,required = false) String sortDir
+    ){
+        ApiReponse response = new ApiReponse();
+        Paginacion usuarios = usuarioService.obtenerUsuarios(pageNum, pageSize, orderBy,sortDir);
+        response.success(Messages.OK.getCode(), Messages.OK.getMessage(), usuarios);
+        return new ResponseEntity<>(response, response.getCode());
+    }
+
 
     @PostMapping
-    public ResponseEntity<OutPutEntity<UsuarioDTO>> agregar(
+    public ResponseEntity<ApiReponse<UsuarioDTO>> agregar(
             @RequestBody UsuarioDTO usuarioDTO
     ){
-        OutPutEntity<UsuarioDTO> out = new OutPutEntity<>();
-        out.success(Messages.CREATED.getCode(),Messages.CREATED.getMessage(),usuarioService.agregar(usuarioDTO));
-        return new ResponseEntity<OutPutEntity<UsuarioDTO>>(out, out.getCode());
+        ApiReponse<UsuarioDTO> response = new ApiReponse<>();
+        UsuarioDTO usuario = usuarioService.agregar(usuarioDTO);
+        if(usuario == null){
+            response.failed(Messages.EMAIL_EXISTS.getCode(), Messages.EMAIL_EXISTS.getMessage());
+            return new ResponseEntity<>(response,response.getCode());
+        }
+        response.success(Messages.CREATED.getCode(),Messages.CREATED.getMessage(),usuario);
+        return new ResponseEntity<>(response,response.getCode());
     }
 
     @PutMapping
-    public ResponseEntity<UsuarioDTO> actualizar(
+    public ResponseEntity<ApiReponse<UsuarioDTO>> actualizar(
             @RequestBody UsuarioDTO usuarioDTO
     ){
-        return new ResponseEntity<>(usuarioService.actualizar(usuarioDTO),HttpStatus.OK);
+
+        UsuarioDTO uDto = usuarioService.actualizar(usuarioDTO);
+        ApiReponse<UsuarioDTO> response = new ApiReponse<>();
+
+        if(uDto == null){
+            response.error(Messages.USER_NOT_FOUND.getCode(),Messages.USER_NOT_FOUND.getMessage());
+            return new ResponseEntity<>(response,response.getCode());
+        }
+        response.success(Messages.UPDATED.getCode(),Messages.UPDATED.getMessage(), response.getData());
+        return new ResponseEntity<>(response,response.getCode());
     }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<ApiReponse<String>> eliminar(
+            @PathVariable("id") int id
+    ){
+        UsuarioDTO usuarioDTO = usuarioService.buscarPorId(id);
+        ApiReponse<String> response = new ApiReponse<>();
+        if(usuarioDTO==null){
+            response.error(Messages.USER_NOT_FOUND.getCode(),Messages.USER_NOT_FOUND.getMessage());
+            return new ResponseEntity<>(response,response.getCode());
+        }
+        usuarioService.eliminar(usuarioDTO.getId());
+        response.success(Messages.DELETED.getCode(),Messages.DELETED.getMessage());
+        return new ResponseEntity<>(response,response.getCode());
+    }
+
+
+
+
 
 
 
