@@ -6,11 +6,11 @@ import lombok.Data;
 import java.util.List;
 
 @Data
-public class Paginacion {
+public class Paginacion<T> {
 
     private int pageNumber;
     private int pageSize;
-    private List<UsuarioDTO> classBody;
+    private List<T> classBody;
     private long totalElements;
     private int totalPages;
     private boolean lastRow;

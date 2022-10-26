@@ -22,6 +22,9 @@ public class ConsultorioEntity {
     @Column(name = "correo")
     private String correo;
 
+    @Column(name = "direccion")
+    private String direccion;
+
     @OneToMany(
             mappedBy = "consultorio",
             cascade = CascadeType.ALL,

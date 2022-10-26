@@ -1,10 +1,11 @@
 package com.integrador.app.service.impl;
 
 import com.integrador.app.dto.UsuarioDTO;
+import com.integrador.app.entities.PaisEntity;
 import com.integrador.app.entities.UsuarioEntity;
-import com.integrador.app.entities.response.ApiReponse;
+import com.integrador.app.entities.request.UsuarioRequest;
 import com.integrador.app.entities.response.Paginacion;
-import com.integrador.app.excepciones.Messages;
+import com.integrador.app.repository.IPaisRepository;
 import com.integrador.app.repository.IUsuarioRepository;
 import com.integrador.app.service.IUsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,31 +25,38 @@ public class UsuarioServiceImpl implements IUsuarioService {
 
     private final IUsuarioRepository usuarioRepository;
 
+    private final IPaisRepository paisRepository;
+
     private ModelMapper modelMapper;
 
     @Autowired
-    public UsuarioServiceImpl(IUsuarioRepository usuarioRepository) {
+    public UsuarioServiceImpl(IUsuarioRepository usuarioRepository, IPaisRepository paisRepository) {
         this.usuarioRepository = usuarioRepository;
+        this.paisRepository = paisRepository;
         this.modelMapper = modelMapper;
     }
 
 
     @Override
-    public UsuarioDTO agregar(UsuarioDTO usuarioDTO) {
+    public UsuarioDTO agregar(UsuarioRequest usuarioRequest) {
 
 
-        Optional<UsuarioEntity> optional = usuarioRepository.findByCorreo(usuarioDTO.getCorreo());
+        Optional<UsuarioEntity> optional = usuarioRepository.findByCorreo(usuarioRequest.getCorreo());
         if(optional.isPresent()){
             return null;
         }
 
+        PaisEntity pais = paisRepository.findById(usuarioRequest.getIdPais()).get();
+
         UsuarioEntity u = new UsuarioEntity();
-        u.setNombre(usuarioDTO.getNombre());
-        u.setApellido(usuarioDTO.getApellido());
-        u.setEdad(usuarioDTO.getEdad());
-        u.setSexo(usuarioDTO.getSexo());
-        u.setCorreo(usuarioDTO.getCorreo());
-        u.setTelefono(usuarioDTO.getTelefono());
+        u.setNombre(usuarioRequest.getNombre());
+        u.setApellido(usuarioRequest.getApellido());
+        u.setEdad(usuarioRequest.getEdad());
+        u.setSexo(usuarioRequest.getSexo());
+        u.setCorreo(usuarioRequest.getCorreo());
+        u.setTelefono(usuarioRequest.getTelefono());
+        u.setPais(pais);
+
 
         UsuarioEntity user = usuarioRepository.save(u);
 
@@ -60,8 +68,15 @@ public class UsuarioServiceImpl implements IUsuarioService {
         uDto.setSexo(user.getSexo());
         uDto.setCorreo(user.getCorreo());
         uDto.setTelefono(user.getTelefono());
+        uDto.setPais(user.getPais().getDescripcion());
         return uDto;
 
+    }
+
+
+    @Override
+    public UsuarioDTO agregar(UsuarioDTO usuarioDTO) {
+        return null;
     }
 
     @Override
@@ -74,6 +89,7 @@ public class UsuarioServiceImpl implements IUsuarioService {
         if(optional.isEmpty()){
             return null;
         }
+
         nuevoUser = optional.get();
         nuevoUser.setNombre(usuarioDTO.getNombre());
         nuevoUser.setApellido(usuarioDTO.getApellido());
@@ -81,6 +97,7 @@ public class UsuarioServiceImpl implements IUsuarioService {
         nuevoUser.setSexo(usuarioDTO.getSexo());
         nuevoUser.setCorreo(usuarioDTO.getCorreo());
         nuevoUser.setTelefono(usuarioDTO.getTelefono());
+
 
         UsuarioEntity user = usuarioRepository.save(nuevoUser);
 
@@ -122,7 +139,7 @@ public class UsuarioServiceImpl implements IUsuarioService {
     }
 
     @Override
-    public Paginacion obtenerUsuarios(int pageNum, int pageSize, String orderBy, String sortDir) {
+    public Paginacion<UsuarioDTO> obtenerUsuarios(int pageNum, int pageSize, String orderBy, String sortDir) {
         Sort sort = ordenarPor(orderBy,sortDir);
         Pageable pageable = PageRequest.of(pageNum,pageSize,sort);
         Page<UsuarioEntity> usuarios = usuarioRepository.findAll(pageable);
@@ -139,6 +156,7 @@ public class UsuarioServiceImpl implements IUsuarioService {
         paginacion.setLastRow(usuarios.isLast());
         return paginacion;
     }
+
 
 
 
@@ -170,6 +188,7 @@ public class UsuarioServiceImpl implements IUsuarioService {
         usuarioDTO.setSexo(usuarioEntity.getSexo());
         usuarioDTO.setCorreo(usuarioEntity.getCorreo());
         usuarioDTO.setTelefono(usuarioEntity.getTelefono());
+        usuarioDTO.setPais(usuarioEntity.getPais().getDescripcion());
         return usuarioDTO;
     }
 

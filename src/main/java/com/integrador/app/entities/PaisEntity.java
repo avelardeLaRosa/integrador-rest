@@ -16,6 +16,5 @@ public class PaisEntity {
     @Column(name = "descripcion")
     private String descripcion;
 
-    @ManyToOne
-    private UsuarioEntity usuarioPais;
+
 }

@@ -16,7 +16,13 @@ public class DiagnosticoEntity {
     @Column(name = "descripcion")
     private String descripcion;
 
+
+
+
+    /*
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_cita")
     private CitaEntity cita;
+
+     */
 }

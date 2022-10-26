@@ -1,16 +1,20 @@
 package com.integrador.app.controller;
 
+import com.integrador.app.dto.PaisDTO;
 import com.integrador.app.dto.UsuarioDTO;
+import com.integrador.app.entities.PaisEntity;
+import com.integrador.app.entities.request.UsuarioRequest;
 import com.integrador.app.entities.response.ApiReponse;
 import com.integrador.app.entities.response.Paginacion;
 import com.integrador.app.excepciones.Messages;
+import com.integrador.app.service.IPaisService;
 import com.integrador.app.service.IUsuarioService;
 import com.integrador.app.util.ConstantesServicio;
-import lombok.Getter;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Optional;
 
 @RestController
 @RequestMapping("usuario")
@@ -18,9 +22,12 @@ public class UsuarioRestController {
 
     private final IUsuarioService usuarioService;
 
+    private final IPaisService paisService;
+
     @Autowired
-    public UsuarioRestController(IUsuarioService usuarioService) {
+    public UsuarioRestController(IUsuarioService usuarioService, IPaisService paisService) {
         this.usuarioService = usuarioService;
+        this.paisService = paisService;
     }
 
 
@@ -40,14 +47,24 @@ public class UsuarioRestController {
 
     @PostMapping
     public ResponseEntity<ApiReponse<UsuarioDTO>> agregar(
-            @RequestBody UsuarioDTO usuarioDTO
-    ){
+            @RequestBody UsuarioRequest usuarioRequest
+            ){
         ApiReponse<UsuarioDTO> response = new ApiReponse<>();
-        UsuarioDTO usuario = usuarioService.agregar(usuarioDTO);
+
+        PaisDTO paisDTO = paisService.buscarPorId(usuarioRequest.getIdPais());
+        if(paisDTO == null){
+            response.failed(Messages.PAIS_NOT_FOUND.getCode(), Messages.PAIS_NOT_FOUND.getMessage());
+            return new ResponseEntity<>(response,response.getCode());
+        }
+
+        UsuarioDTO usuario = usuarioService.agregar(usuarioRequest);
+
         if(usuario == null){
             response.failed(Messages.EMAIL_EXISTS.getCode(), Messages.EMAIL_EXISTS.getMessage());
             return new ResponseEntity<>(response,response.getCode());
         }
+
+
         response.success(Messages.CREATED.getCode(),Messages.CREATED.getMessage(),usuario);
         return new ResponseEntity<>(response,response.getCode());
     }

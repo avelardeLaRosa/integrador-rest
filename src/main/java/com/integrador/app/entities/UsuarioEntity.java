@@ -34,11 +34,8 @@ public class UsuarioEntity {
             fetch = FetchType.LAZY,orphanRemoval = true)
     private List<CitaEntity> citas = new ArrayList<>();
 
-    @OneToMany(
-            mappedBy = "usuarioPais",
-            cascade = CascadeType.ALL,
-            fetch = FetchType.LAZY,orphanRemoval = true
-    )
-    private List<PaisEntity> paises = new ArrayList<>();
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_pais")
+    private PaisEntity pais ;
 
 }

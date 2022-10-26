@@ -21,19 +21,7 @@ public class UsuarioDTO {
     private String sexo;
     private String correo;
     private String telefono;
+    private String pais;
     private List<CitaDTO> citasDTOList = new ArrayList<>();
-    private List<PaisDTO> paisesDTOList = new ArrayList<>();
 
-    @Data
-    public class UsuarioRequestDTO{
-        
-        private int id;
-        private String nombre;
-        private String apellido;
-        private String edad;
-        private String sexo;
-        private String correo;
-        private String telefono;
-        
-    }
 }

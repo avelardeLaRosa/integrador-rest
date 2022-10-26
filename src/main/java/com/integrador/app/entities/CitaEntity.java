@@ -29,12 +29,17 @@ public class CitaEntity {
     @JoinColumn(name = "id_consultorio", nullable = false)
     private ConsultorioEntity consultorio;
 
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_diagnostico")
+    private DiagnosticoEntity diagnostico;
+    /*
     @OneToMany(
             mappedBy = "cita",
-            cascade = CascadeType.ALL,
             fetch = FetchType.LAZY
     )
     private List<DiagnosticoEntity> diagnostico = new ArrayList<>();
+
+     */
 
 
 
