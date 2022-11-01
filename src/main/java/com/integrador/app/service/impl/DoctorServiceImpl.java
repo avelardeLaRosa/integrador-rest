@@ -82,6 +82,7 @@ public class DoctorServiceImpl implements IDoctorService {
         doctorDTO.setNombre(doctorEntity.getNombre());
         doctorDTO.setEspecialidad(doctorEntity.getEspecialidad());
         doctorDTO.setSexo(doctorEntity.getSexo());
+        doctorDTO.setConsultorioDTO(doctorEntity.getConsultorio().getDescripcion());
         return doctorDTO;
     }
 

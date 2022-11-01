@@ -16,5 +16,5 @@ public class DoctorDTO {
     private String apellido;
     private String especialidad;
     private String sexo;
-    private ConsultorioDTO consultorioDTO;
+    private String consultorioDTO;
 }

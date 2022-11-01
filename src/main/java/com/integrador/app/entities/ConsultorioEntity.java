@@ -1,15 +1,17 @@
 package com.integrador.app.entities;
 
+import com.integrador.app.dto.ConsultorioDTO;
 import lombok.Data;
 
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Entity
 @Data
 @Table(name = "tb_consultorio")
-public class ConsultorioEntity {
+public class ConsultorioEntity{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

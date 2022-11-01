@@ -24,4 +24,6 @@ public class DoctorEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     private ConsultorioEntity consultorio;
+
+
 }
