@@ -31,7 +31,7 @@ public class UsuarioRestController {
     }
 
 
-    @GetMapping
+    @GetMapping("/get")
     public ResponseEntity<ApiReponse<Paginacion>> listarUsuarios(
             @RequestParam(value = "pageNum", defaultValue = ConstantesServicio.PAGE_NUMBER,required = false) int pageNum,
             @RequestParam(value = "pageSize", defaultValue = ConstantesServicio.PAGE_SIZE,required = false) int pageSize,
