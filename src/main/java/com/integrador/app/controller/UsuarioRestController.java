@@ -44,7 +44,7 @@ public class UsuarioRestController {
         return new ResponseEntity<>(response, response.getCode());
     }
 
-    @PostMapping("/search/{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<ApiReponse<UsuarioDTO>> buscarPorId(
             @PathVariable("id") int id
     ){
