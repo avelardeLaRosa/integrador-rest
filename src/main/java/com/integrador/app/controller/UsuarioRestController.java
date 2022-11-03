@@ -44,6 +44,19 @@ public class UsuarioRestController {
         return new ResponseEntity<>(response, response.getCode());
     }
 
+    @PostMapping("/search/{id}")
+    public ResponseEntity<ApiReponse<UsuarioDTO>> buscarPorId(
+            @PathVariable("id") int id
+    ){
+        ApiReponse<UsuarioDTO> response = new ApiReponse<>();
+        UsuarioDTO usuarioDTO = usuarioService.buscarPorId(id);
+        if(usuarioDTO==null){
+            response.failed(Messages.USER_NOT_FOUND.getCode(), Messages.USER_NOT_FOUND.getMessage());
+            return new ResponseEntity<>(response,response.getCode());
+        }
+        response.success(Messages.OK.getCode(),Messages.OK.getMessage(),usuarioDTO);
+        return new ResponseEntity<>(response, response.getCode());
+    }
 
     @PostMapping
     public ResponseEntity<ApiReponse<UsuarioDTO>> agregar(
