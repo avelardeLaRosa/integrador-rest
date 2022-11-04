@@ -1,5 +1,6 @@
 package com.integrador.app.service.impl;
 
+import com.integrador.app.dto.CitaDTO;
 import com.integrador.app.dto.UsuarioDTO;
 import com.integrador.app.entities.PaisEntity;
 import com.integrador.app.entities.UsuarioEntity;
@@ -8,6 +9,7 @@ import com.integrador.app.entities.response.Paginacion;
 import com.integrador.app.repository.IPaisRepository;
 import com.integrador.app.repository.IUsuarioRepository;
 import com.integrador.app.service.IUsuarioService;
+import com.integrador.app.util.ObjectMapperUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -40,7 +42,6 @@ public class UsuarioServiceImpl implements IUsuarioService {
     @Override
     public UsuarioDTO agregar(UsuarioRequest usuarioRequest) {
 
-
         Optional<UsuarioEntity> optional = usuarioRepository.findByCorreo(usuarioRequest.getCorreo());
         if(optional.isPresent()){
             return null;
@@ -71,6 +72,27 @@ public class UsuarioServiceImpl implements IUsuarioService {
         uDto.setPais(user.getPais().getDescripcion());
         return uDto;
 
+    }
+
+    @Override
+    public UsuarioDTO buscarPorCorreo(String correo) {
+        Optional<UsuarioEntity> optional = usuarioRepository.findByCorreo(correo);
+        if(optional.isEmpty()){
+            return null;
+        }
+        UsuarioEntity usuario = optional.get();
+        UsuarioDTO usuarioDTO = new UsuarioDTO();
+        usuarioDTO.setId(usuario.getId());
+        usuarioDTO.setNombre(usuario.getNombre());
+        usuarioDTO.setApellido(usuario.getApellido());
+        usuarioDTO.setEdad(usuario.getEdad());
+        usuarioDTO.setSexo(usuario.getSexo());
+        usuarioDTO.setCorreo(usuario.getCorreo());
+        usuarioDTO.setTelefono(usuario.getTelefono());
+        usuarioDTO.setPais(usuario.getPais().getDescripcion());
+        List<CitaDTO> citas = ObjectMapperUtils.mapAll(usuario.getCitas(),CitaDTO.class);
+        usuarioDTO.setCitasDTOList(citas);
+        return usuarioDTO;
     }
 
 
@@ -165,7 +187,6 @@ public class UsuarioServiceImpl implements IUsuarioService {
 
         usuarioRepository.deleteById(id);
     }
-
 
 
 

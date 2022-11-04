@@ -10,5 +10,6 @@ public interface IUsuarioService extends IGenericCrud<UsuarioDTO> {
 
     public Paginacion obtenerUsuarios(int pageNum, int pageSize, String orderBy, String sortDir);
     public UsuarioDTO agregar(UsuarioRequest usuarioRequest);
+    public UsuarioDTO buscarPorCorreo(String correo);
 
 }

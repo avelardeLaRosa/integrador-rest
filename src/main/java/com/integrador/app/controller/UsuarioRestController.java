@@ -30,7 +30,7 @@ public class UsuarioRestController {
         this.paisService = paisService;
     }
 
-
+/*
     @GetMapping
     public ResponseEntity<ApiReponse<Paginacion>> listarUsuarios(
             @RequestParam(value = "pageNum", defaultValue = ConstantesServicio.PAGE_NUMBER,required = false) int pageNum,
@@ -43,6 +43,8 @@ public class UsuarioRestController {
         response.success(Messages.OK.getCode(), Messages.OK.getMessage(), usuarios);
         return new ResponseEntity<>(response, response.getCode());
     }
+
+ */
 
     @GetMapping("/{id}")
     public ResponseEntity<ApiReponse<UsuarioDTO>> buscarPorId(
@@ -57,6 +59,21 @@ public class UsuarioRestController {
         response.success(Messages.OK.getCode(),Messages.OK.getMessage(),usuarioDTO);
         return new ResponseEntity<>(response, response.getCode());
     }
+
+    @GetMapping
+    public ResponseEntity<ApiReponse<UsuarioDTO>> buscarPorCorreo(
+            @RequestParam("correo") String correo
+    ){
+        ApiReponse<UsuarioDTO> response = new ApiReponse<>();
+        UsuarioDTO usuarioDTO = usuarioService.buscarPorCorreo(correo);
+        if(usuarioDTO == null){
+            response.failed(Messages.USER_NOT_FOUND.getCode(), Messages.USER_NOT_FOUND.getMessage());
+            return new ResponseEntity<>(response,response.getCode());
+        }
+        response.success(Messages.OK.getCode(), Messages.OK.getMessage(),usuarioDTO);
+        return new ResponseEntity<>(response,response.getCode());
+    }
+
 
     @PostMapping
     public ResponseEntity<ApiReponse<UsuarioDTO>> agregar(
