@@ -12,5 +12,5 @@ public class DiagnosticoDTO {
 
     private int id;
     private String descripcion;
-    private CitaDTO citaDTO;
+
 }

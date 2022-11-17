@@ -16,6 +16,7 @@ public enum Messages {
     USER_NOT_FOUND("Usuario no encontrado", 500),
     CONSULTORIO_NOT_FOUND("Consultorio no encontrado", 500),
     PAIS_NOT_FOUND("Pais no encontrado", 500),
+    DIAGNOSTICO_NOT_FOUND("Diagnostico no encontrado", 500),
     EMAIL_EXISTS("Correo ya ingresado", 500),
     CONFLICT("Conflicto en su peticion", 409);
 
