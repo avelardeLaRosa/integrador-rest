@@ -2,14 +2,18 @@ package com.integrador.app.service.impl;
 
 import com.integrador.app.dto.CitaDTO;
 import com.integrador.app.dto.UsuarioDTO;
+import com.integrador.app.entities.CitaEntity;
 import com.integrador.app.entities.PaisEntity;
 import com.integrador.app.entities.UsuarioEntity;
 import com.integrador.app.entities.request.UsuarioRequest;
+import com.integrador.app.entities.response.CitaResponse;
 import com.integrador.app.entities.response.Paginacion;
 import com.integrador.app.repository.IPaisRepository;
 import com.integrador.app.repository.IUsuarioRepository;
 import com.integrador.app.service.IUsuarioService;
 import com.integrador.app.util.ObjectMapperUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -30,6 +34,8 @@ public class UsuarioServiceImpl implements IUsuarioService {
     private final IPaisRepository paisRepository;
 
     private ModelMapper modelMapper;
+
+    private Logger logger = LoggerFactory.getLogger(UsuarioServiceImpl.class);
 
     @Autowired
     public UsuarioServiceImpl(IUsuarioRepository usuarioRepository, IPaisRepository paisRepository) {
@@ -90,8 +96,16 @@ public class UsuarioServiceImpl implements IUsuarioService {
         usuarioDTO.setCorreo(usuario.getCorreo());
         usuarioDTO.setTelefono(usuario.getTelefono());
         usuarioDTO.setPais(usuario.getPais().getDescripcion());
-        List<CitaDTO> citas = ObjectMapperUtils.mapAll(usuario.getCitas(),CitaDTO.class);
-        usuarioDTO.setCitasDTOList(citas);
+        usuarioDTO.setCita(usuario.getCitas().stream().map(c -> {
+            CitaResponse response = new CitaResponse();
+            response.setId(c.getId());
+            response.setCode(c.getCode());
+            response.setFechaCreacion(c.getFecha());
+            response.setConsultorio(c.getConsultorio().getDescripcion());
+            response.setDoctor(c.getDoctor().getNombre()+" "+c.getDoctor().getApellido());
+            response.setDiagnostico(c.getDiagnostico().getDescripcion());
+            return response;
+        }).collect(Collectors.toList()));
         return usuarioDTO;
     }
 

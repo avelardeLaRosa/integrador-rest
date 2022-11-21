@@ -16,6 +16,7 @@ public class ConsultorioDTO {
     private String descripcion;
     private String contacto;
     private String correo;
+    private String direccion;
     //private List<CitaDTO> citasConsultDTOList = new ArrayList<>();
     private List<DoctorDTO> doctoresDTO = new ArrayList<>();
 

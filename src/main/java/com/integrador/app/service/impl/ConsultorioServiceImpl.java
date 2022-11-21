@@ -2,8 +2,10 @@ package com.integrador.app.service.impl;
 
 import com.integrador.app.dto.ConsultorioDTO;
 import com.integrador.app.dto.DoctorDTO;
+import com.integrador.app.dto.UsuarioDTO;
 import com.integrador.app.entities.ConsultorioEntity;
 import com.integrador.app.entities.DoctorEntity;
+import com.integrador.app.entities.UsuarioEntity;
 import com.integrador.app.entities.response.Paginacion;
 import com.integrador.app.repository.IConsultorioRepository;
 import com.integrador.app.service.IConsultorioService;
@@ -16,6 +18,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -41,7 +44,18 @@ public class ConsultorioServiceImpl implements IConsultorioService {
 
     @Override
     public ConsultorioDTO buscarPorId(Integer id) {
-        return null;
+        Optional<ConsultorioEntity> optional = consultorioRepository.findById(id);
+        if(optional.isEmpty()){
+            return null;
+        }
+        ConsultorioEntity consultorio = optional.get();
+        ConsultorioDTO cDto = new ConsultorioDTO();
+        cDto.setId(consultorio.getId());
+        cDto.setDescripcion(consultorio.getDescripcion());
+        cDto.setContacto(consultorio.getContacto());
+        cDto.setCorreo(consultorio.getCorreo());
+        cDto.setDireccion(consultorio.getDireccion());
+        return cDto;
     }
 
     @Override

@@ -1,11 +1,9 @@
 package com.integrador.app.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.integrador.app.entities.CitaEntity;
-import com.integrador.app.entities.PaisEntity;
+import com.integrador.app.entities.response.CitaResponse;
 import lombok.Data;
 
-import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,6 +20,6 @@ public class UsuarioDTO {
     private String correo;
     private String telefono;
     private String pais;
-    private List<CitaDTO> citasDTOList = new ArrayList<>();
+    private List<CitaResponse> cita = new ArrayList<>();
 
 }

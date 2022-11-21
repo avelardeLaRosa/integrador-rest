@@ -1,6 +1,7 @@
 package com.integrador.app.controller;
 
 import com.integrador.app.dto.ConsultorioDTO;
+import com.integrador.app.dto.UsuarioDTO;
 import com.integrador.app.entities.response.ApiReponse;
 import com.integrador.app.entities.response.Paginacion;
 import com.integrador.app.excepciones.Messages;
@@ -9,10 +10,7 @@ import com.integrador.app.util.ConstantesServicio;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -42,6 +40,20 @@ public class ConsultorioRestController {
         }
         apiReponse.success(Messages.OK.getCode(),Messages.OK.getMessage(),consultorios);
         return new ResponseEntity<>(apiReponse,apiReponse.getCode());
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<ApiReponse<ConsultorioDTO>> buscarPorId(
+            @PathVariable("id") int id
+    ){
+        ApiReponse<ConsultorioDTO> response = new ApiReponse<>();
+        ConsultorioDTO consultorioDTO = consultorioService.buscarPorId(id);
+        if(consultorioDTO==null){
+            response.failed(Messages.CONSULTORIO_NOT_FOUND.getCode(), Messages.CONSULTORIO_NOT_FOUND.getMessage());
+            return new ResponseEntity<>(response,response.getCode());
+        }
+        response.success(Messages.OK.getCode(),Messages.OK.getMessage(),consultorioDTO);
+        return new ResponseEntity<>(response, response.getCode());
     }
 
 
