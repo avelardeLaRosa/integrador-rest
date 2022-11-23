@@ -18,7 +18,7 @@ public class CitaResponse {
     private int id;
     private String code;
     //@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = ConstantesServicio.DATE_TIME_FORMAT)
-    private String fechaCreacion;
+    private String fecha;
 
     private String usuario;
     private String consultorio;

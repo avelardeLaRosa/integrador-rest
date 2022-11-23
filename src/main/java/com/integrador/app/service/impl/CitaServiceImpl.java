@@ -57,7 +57,8 @@ public class CitaServiceImpl implements ICitaService {
 
         CitaResponse citaResponse = new CitaResponse();
         citaResponse.setId(citaNueva.getId());
-        citaResponse.setFechaCreacion(citaNueva.getFecha());
+        citaResponse.setCode(citaNueva.getCode());
+        citaResponse.setFecha(citaNueva.getFecha());
         citaResponse.setUsuario(citaNueva.getUsuario().getNombre()+ " " + citaNueva.getUsuario().getApellido());
         citaResponse.setConsultorio(citaNueva.getConsultorio().getDescripcion());
         citaResponse.setDoctor(citaNueva.getDoctor().getNombre()+" "+citaNueva.getDoctor().getApellido());
@@ -89,7 +90,7 @@ public class CitaServiceImpl implements ICitaService {
 
         CitaResponse citaResponse = new CitaResponse();
         citaResponse.setId(citaNueva.getId());
-        citaResponse.setFechaCreacion(citaNueva.getFecha());
+        citaResponse.setFecha(citaNueva.getFecha());
         citaResponse.setUsuario(citaNueva.getUsuario().getNombre()+ " " + citaNueva.getUsuario().getApellido());
         citaResponse.setConsultorio(citaNueva.getConsultorio().getDescripcion());
         citaResponse.setDoctor(citaNueva.getDoctor().getNombre()+" "+citaNueva.getDoctor().getApellido());
@@ -107,7 +108,7 @@ public class CitaServiceImpl implements ICitaService {
         CitaResponse citaResponse =  new CitaResponse();
         citaResponse.setId(cita.getId());
         citaResponse.setCode(cita.getCode());
-        citaResponse.setFechaCreacion(cita.getFecha());
+        citaResponse.setFecha(cita.getFecha());
         citaResponse.setUsuario(cita.getUsuario().getNombre()+" "+cita.getUsuario().getApellido());
         citaResponse.setConsultorio(cita.getConsultorio().getDescripcion());
         citaResponse.setDiagnostico(cita.getDiagnostico().getDescripcion());
@@ -125,7 +126,7 @@ public class CitaServiceImpl implements ICitaService {
         CitaResponse citaResponse =  new CitaResponse();
         citaResponse.setId(cita.getId());
         citaResponse.setCode(cita.getCode());
-        citaResponse.setFechaCreacion(cita.getFecha());
+        citaResponse.setFecha(cita.getFecha());
         citaResponse.setUsuario(cita.getUsuario().getNombre()+" "+cita.getUsuario().getApellido());
         citaResponse.setConsultorio(cita.getConsultorio().getDescripcion());
         citaResponse.setDiagnostico(cita.getDiagnostico().getDescripcion());

@@ -100,7 +100,7 @@ public class UsuarioServiceImpl implements IUsuarioService {
             CitaResponse response = new CitaResponse();
             response.setId(c.getId());
             response.setCode(c.getCode());
-            response.setFechaCreacion(c.getFecha());
+            response.setFecha(c.getFecha());
             response.setConsultorio(c.getConsultorio().getDescripcion());
             response.setDoctor(c.getDoctor().getNombre()+" "+c.getDoctor().getApellido());
             response.setDiagnostico(c.getDiagnostico().getDescripcion());
