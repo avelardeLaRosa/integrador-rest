@@ -73,18 +73,22 @@ public class CitaServiceImpl implements ICitaService {
         if(citaOptional.isEmpty()){
             return null;
         }
-
+/*
         UsuarioEntity u = usuarioRepository.findById(c.getUsuario()).get();
         ConsultorioEntity consultorio = consultorioRepository.findById(c.getConsultorio()).get();
         DoctorEntity doctor = doctorRepository.findById(c.getDoctor()).get();
         DiagnosticoEntity diagnostico = diagnosticoRepository.findById(c.getDiagnostico()).get();
 
+ */
+
         CitaEntity cita = citaOptional.get();
         cita.setFecha(c.getFechaCreacion());
+        /*
         cita.setUsuario(u);
         cita.setConsultorio(consultorio);
         cita.setDoctor(doctor);
         cita.setDiagnostico(diagnostico);
+         */
 
         CitaEntity citaNueva = citaRepository.save(cita);
 

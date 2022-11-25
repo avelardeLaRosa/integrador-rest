@@ -87,7 +87,7 @@ public class CitaRestController {
     @PutMapping
     public ResponseEntity<ApiReponse<CitaResponse>> actualizar(@RequestBody CitaDTO c){
         ApiReponse response = new ApiReponse();
-
+/*
         UsuarioDTO u = usuarioService.buscarPorId(c.getUsuario());
         if(u==null){
             response.failed(Messages.USER_NOT_FOUND.getCode(), Messages.USER_NOT_FOUND.getMessage());
@@ -111,6 +111,8 @@ public class CitaRestController {
             response.failed(Messages.DIAGNOSTICO_NOT_FOUND.getCode(), Messages.DIAGNOSTICO_NOT_FOUND.getMessage());
             return new ResponseEntity<>(response,response.getCode());
         }
+
+ */
 
         CitaResponse res = citaService.buscarPorFecha(c.getFechaCreacion());
         if(res!=null){
